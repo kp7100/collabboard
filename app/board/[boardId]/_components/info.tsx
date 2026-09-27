@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Hint } from "@/components/hint";
 import { api } from "@/convex/_generated/api";
 import { Actions } from "@/components/actions";
+import { Share } from "./share";
 import { Button } from "@/components/ui/button";
 import { Id } from "@/convex/_generated/dataModel";
 import { useRenameModal } from "@/store/use-rename-modal";
@@ -72,6 +73,8 @@ export const Info = ({
           {data.title}
         </Button>
       </Hint>
+      <TabSeparator />
+      <Share boardId={boardId} />
       <TabSeparator />
       <Actions
         id={data._id}

@@ -98,6 +98,29 @@ export const update = mutation({
   },
 });
 
+export const setPublic = mutation({
+  args: { id: v.id("boards"), isPublic: v.boolean() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const board = await ctx.db.get(args.id);
+
+    if (!board) {
+      throw new Error("Board not found");
+    }
+
+    await ctx.db.patch(args.id, {
+      isPublic: args.isPublic,
+    });
+
+    return args.isPublic;
+  },
+});
+
 export const favorite = mutation({
   args: { id: v.id("boards"), orgId: v.string() },
   handler: async (ctx, args) => {
