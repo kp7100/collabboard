@@ -1,60 +1,79 @@
-# CollabBoard - Real-time Collaborative Whiteboard
+# CollabBoard — Real-time Collaborative Whiteboard
 
-A real-time collaborative whiteboard for teams. Create organizations, invite members, create boards, and collaborate live with text, shapes, sticky notes, freehand drawing, layering, and undo/redo. Share boards via public link — anyone with the link can join, no org invite needed.
+A full-stack, real-time collaborative whiteboard for teams. Create organizations, invite members, create boards, and collaborate live with text, shapes, sticky notes, freehand drawing, layer coloring, and undo/redo. Share boards via public link — anyone with the link can join, no org invite needed.
 
-Built with Next.js 14, React, TailwindCSS + shadcn/ui, Convex, Liveblocks, and Clerk.
+**[Live Demo →](https://mirro-clone-app.vercel.app)** &nbsp;·&nbsp; **[Source →](https://github.com/kp7100/Mirro-clone-app)**
 
-Features:
+## Features
 
-- 🛠️ Whiteboard canvas from scratch
-- 🧰 Toolbar with Text, Shapes, Sticky Notes & Pencil
-- 🪄 Layering functionality
-- 🎨 Coloring system
-- ↩️ Undo & Redo functionality
-- ⌨️ Keyboard shortcuts
-- 🤝 Real-time collaboration
-- 🔗 Public share links (anyone with link can join)
-- 💾 Real-time database
-- 🔐 Auth, organisations and invites
-- ⭐️ Favoriting functionality
-- 🌐 Next.js 14 framework
-- 💅 TailwindCSS & shadcn/ui styling
+- 🛠️ Whiteboard canvas built from scratch (rectangles, ellipses, text, sticky notes, pencil/freehand)
+- 🧰 Complete toolbar with tool + color selection
+- 🎨 Coloring system & layer depth management
+- ↩️ Undo / Redo
+- ⌨️ Keyboard shortcuts (undo, redo, tool switching)
+- 🤝 Real-time multiplayer collaboration with live cursors & presence
+- 🔗 Public share links — toggle any board public, copy link, non-members can join
+- 💾 Real-time database (Convex) with server-side auth(Z) checks
+- ⭐️ Favorite boards + search by title
+- 🔐 Auth, organizations, members & invites (Clerk)
+- 🌐 Next.js 14 App Router, TailwindCSS + shadcn/ui
+
+## Tech Stack
+
+| Layer | Tool |
+| --- | --- |
+| Framework | Next.js 14, React 18, TypeScript |
+| Styling | TailwindCSS, shadcn/ui |
+| Realtime canvas | Liveblocks (`@liveblocks/react`, `@liveblocks/node`) |
+| Database & server functions | Convex |
+| Auth & organizations | Clerk |
+| Hosting | Vercel |
+
+## Security Model
+
+- Public board access is enforced server-side in the Liveblocks auth endpoint (`app/api/liveblocks-auth/route.ts`): a board with `isPublic: true` grants any signed-in user access; otherwise only users whose active Clerk organization matches the board's `orgId` can connect.
+- All Convex mutations require an authenticated identity; delete/favorite are scoped per user.
+
+## Getting Started
 
 ### Prerequisites
 
-**Node 18+ / 20+**
+Node 18+ / 20+
 
-### Install packages
+### 1. Install packages
 
 ```shell
 npm i
 ```
 
-### Setup .env.local file
+### 2. Configure environment (`.env.local`)
 
-```js
-CONVEX_DEPLOYMENT=
-NEXT_PUBLIC_CONVEX_URL=
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-LIVEBLOCKS_SECRET_KEY=
-```
+| Variable | Where to get it |
+| --- | --- |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk dashboard → API Keys |
+| `CLERK_SECRET_KEY` | Clerk dashboard → API Keys |
+| `CONVEX_DEPLOYMENT` + `NEXT_PUBLIC_CONVEX_URL` | auto-filled by `npx convex dev` |
+| `LIVEBLOCKS_SECRET_KEY` | Liveblocks dashboard → API Keys |
 
-How to get them:
-1. Clerk (https://clerk.com): Create application -> copy Publishable + Secret keys. Enable Organizations + Organization slugs in Dashboard.
-2. Convex (https://convex.dev): run `npx convex dev` and login -> it auto-fills `CONVEX_DEPLOYMENT` and `NEXT_PUBLIC_CONVEX_URL` in `.env.local`
-3. Liveblocks (https://liveblocks.io): Create project -> copy Secret key
+Also inside the Clerk dashboard: enable **Organizations** and **Organization slugs**.
 
-### Setup Convex
+### 3. Push database schema & start
 
 ```shell
-npx convex dev
-```
-
-### Start the app
-
-```shell
-npm run dev
+npx convex dev   # keeps running (syncs schema + functions)
+npm run dev      # in a second terminal
 ```
 
 Open http://localhost:3000
+
+## Usage
+
+1. Sign up / sign in
+2. Create an organization (top-left switcher)
+3. Create a board from the dashboard
+4. Draw: press `R` (rectangle), `E` (ellipse), `T` (text), `N` (note), `P` (pencil)
+5. Invite teammates via the org switcher → Members → Invite, or open the board menu → **Create share link** to share publicly
+
+## Author
+
+Built by [Krishan Pareek](https://github.com/kp7100) as a hands-on full-stack project exploring realtime sync (CRDT-style storage), serverless auth and organization-based access control.
