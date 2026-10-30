@@ -2,7 +2,7 @@
 
 A full-stack, real-time collaborative whiteboard for teams. Create organizations, invite members, create boards, and collaborate live with text, shapes, sticky notes, freehand drawing, layer coloring, and undo/redo. Share boards via public link — anyone with the link can join, no org invite needed.
 
-**[Live Demo →](https://collabboard.vercel.app)** &nbsp;·&nbsp; **[Source →](https://github.com/kp7100/collabboard)**
+**[Live Demo →](https://collabboardproject.vercel.app)** &nbsp;·&nbsp; **[Source →](https://github.com/kp7100/collabboard)**
 
 ## Features
 
